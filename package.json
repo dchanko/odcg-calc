@@ -8,11 +8,14 @@
     "open:src": "babel-node build/server.js",
     "lint": "esw webpack.config.*, src, build --color",
     "lint:watch": "npm run lint -- --watch",
-    "security-check": "nsp check"
+    "security-check": "nsp check",
+    "test": "jest"
   },
   "author": "David Chanko",
   "license": "MIT",
   "dependencies": {
+    "react": "15.4.2",
+    "react-dom": "15.4.2",
     "whatwg-fetch": "1.0.0"
   },
   "devDependencies": {
@@ -20,8 +23,10 @@
     "babel-core": "6.17.0",
     "babel-loader": "6.2.5",
     "babel-preset-latest": "6.16.0",
+    "babel-preset-es2015": "6.22.0",
+    "babel-preset-react": "6.22.0",
     "babel-register": "6.16.3",
-    "chai": "3.5.0",
+    "babel-jest": "18.0.0",
     "chalk": "1.1.3",
     "cheerio": "0.22.0",
     "compression": "1.6.2",
@@ -33,6 +38,7 @@
     "express": "4.14.0",
     "extract-text-webpack-plugin": "1.0.1",
     "html-webpack-plugin": "2.22.0",
+    "jest": "18.1.0",
     "jsdom": "9.8.0",
     "json-schema-faker": "0.3.6",
     "json-server": "0.8.22",
@@ -43,11 +49,15 @@
     "nsp": "2.6.2",
     "numeral": "1.5.3",
     "open": "0.0.5",
+    "react-test-renderer": "15.4.2",
     "rimraf": "2.5.4",
     "style-loader": "0.13.1",
     "webpack": "1.13.2",
     "webpack-dev-middleware": "1.8.4",
     "webpack-hot-middleware": "2.13.0",
     "webpack-md5-hash": "0.0.5"
+  },
+  "jest": {
+    "testRegex": "(.*\\.react-test\\.js)$"
   }
 }
