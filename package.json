@@ -4,12 +4,13 @@
   "description": "JavaScript development environment based on Pluralsight course.",
   "scripts": {
     "prestart": "babel-node build/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch",
+    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch",
     "open:src": "babel-node build/server.js",
     "lint": "esw webpack.config.*, src, build --color",
     "lint:watch": "npm run lint -- --watch",
     "security-check": "nsp check",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "npm run test -- --watchAll"
   },
   "author": "David Chanko",
   "license": "MIT",
@@ -58,6 +59,6 @@
     "webpack-md5-hash": "0.0.5"
   },
   "jest": {
-    "testRegex": "(.*\\.react-test\\.js)$"
+    "testRegex": "(.*\\.((react-|)test)\\.js)$"
   }
 }
