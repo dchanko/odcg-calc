@@ -1,16 +1,28 @@
 {
-  "name": "javascript-development-environment",
+  "name": "dchanko-js-starter",
   "version": "1.0.0",
   "description": "JavaScript development environment based on Pluralsight course.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dchanko/js-starter.git"
+  },
   "scripts": {
     "prestart": "babel-node build/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch",
+    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
     "open:src": "babel-node build/server.js",
     "lint": "esw webpack.config.*, src, build --color",
     "lint:watch": "npm run lint -- --watch",
     "security-check": "nsp check",
     "test": "jest",
-    "test:watch": "npm run test -- --watchAll"
+    "test:watch": "npm run test -- --watchAll",
+    "generate-mock-data": "babel-node build/generateMockData",
+    "prestart-mockapi": "npm run generate-mock-data",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+    "clean-dist": "rimraf ./dist && mkdir dist",
+    "prebuild": "npm-run-all clean-dist test lint",
+    "build": "babel-node build/build.js",
+    "postbuild": "babel-node build/distServer.js",
+    "deploy": "surge ./dist"
   },
   "author": "David Chanko",
   "license": "MIT",
@@ -52,6 +64,7 @@
     "open": "0.0.5",
     "react-test-renderer": "15.4.2",
     "rimraf": "2.5.4",
+    "surge": "0.18.0",
     "style-loader": "0.13.1",
     "webpack": "1.13.2",
     "webpack-dev-middleware": "1.8.4",
