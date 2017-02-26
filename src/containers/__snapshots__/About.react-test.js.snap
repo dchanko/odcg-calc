@@ -1,0 +1,7 @@
+exports[`About View Displays information. 1`] = `
+<div>
+  <p>
+    mychron is the tiny time management tool that works for you!
+  </p>
+</div>
+`;

@@ -2,22 +2,27 @@ import express from 'express';
 import path from 'path';
 import open from 'open';
 import compression from 'compression';
+import historyApiFallback from 'connect-history-api-fallback';
 
 /* eslint-disable no-console */
 const port = 3000;
 const app = express();
+const root = 'dist';
 
 app.use(compression());
-app.use(express.static('dist'));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
+app.use(express.static(root));
+app.use(historyApiFallback({
+  verbose: false
+}));
 
 app.get('/users', function (req, res) {
   res.json([
     {"id": 1, "firstName": "Bob", "lastName": "Smith", "email":"bob@gmail.com"}
   ]);
+});
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(port, function(err) {

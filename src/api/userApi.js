@@ -15,6 +15,7 @@ function get(url) {
   return fetch(baseUrl + url).then(onSuccess, onError);
 }
 
+// Example, not used.
 function del(url) {
   const request = new Request(baseUrl + url, {
     method: 'DELETE'

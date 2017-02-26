@@ -19,6 +19,13 @@ export default {
     filename: '[name].[chunkhash].js'
   },
   plugins: [
+    // Set things up to use the minified version of React.
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+
     // Generate an external css file with a hash in the filename.
     new ExtractTextPlugin('[name].[contenthash].css'),
 
