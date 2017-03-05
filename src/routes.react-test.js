@@ -3,7 +3,7 @@ import { Router, createMemoryHistory } from 'react-router';
 import routes from './routes';
 import { shallow } from 'enzyme';
 
-import Home from './containers/Home.react';
+import Calc from './containers/Calc.react';
 import About from './containers/About.react';
 
 
@@ -22,8 +22,8 @@ describe('routes', () => {
     routes = wrapper.props("routes").routes[0];
   });
 
-  test('Sets the index route to be Home', () => {
-    expect(routes.indexRoute.component).toBe(Home);
+  test('Sets the index route to be Calc', () => {
+    expect(routes.indexRoute.component).toBe(Calc);
   });
 
   test('Sets the about route to be About', () => {

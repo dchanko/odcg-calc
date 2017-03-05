@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import Home from './containers/Home.react';
+import Calc from './containers/Calc.react';
 import About from './containers/About.react';
 
 export default (
   <Route path="/">
-    <IndexRoute component={Home}/>
+    <IndexRoute component={Calc}/>
     <Route path="about" component={About}/>
   </Route>
 );

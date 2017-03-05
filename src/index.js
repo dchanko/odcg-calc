@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router, browserHistory } from 'react-router';
+import { Router, hashHistory } from 'react-router';
 
 import css from './index.css';
 
@@ -10,8 +10,8 @@ import store from "./store";
 
 ReactDOM.render(
   <RxContextProvider store$={store}>
-    <Router history={browserHistory} routes={routes} />
+    <Router history={hashHistory} routes={routes} />
   </RxContextProvider>,
-  document.getElementById("root")
+  document.getElementById("content")
 );
 
