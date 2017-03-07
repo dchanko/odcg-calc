@@ -1,12 +1,22 @@
 
-const currentVersion = "0.0.3";
+const currentVersion = "0.0.1";
 const defaultState = {
   version: currentVersion,
-  command: {
-    type: "add",
-    text: ""
+  diamond: {
+    length: 0,
+    width: 0
   },
-  items: []
+  inclusion: {
+    length: 0,
+    width: 0,
+    contrast: .5,
+    position: 1
+  },
+  inclusions: [],
+  grade: {
+    score: 0,
+    gia: ""
+  }
 };
 
 export function getState() {

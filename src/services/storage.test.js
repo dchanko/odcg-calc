@@ -7,7 +7,7 @@ describe('getState', () => {
 
   describe('state has current version', () => {
     const currentState = {
-      version: "0.0.3"
+      version: "0.0.1"
     };
 
     beforeEach(() => {
@@ -22,7 +22,7 @@ describe('getState', () => {
 
   describe('current state has old version', () => {
     const currentState = {
-      version: "0.0.2"
+      version: "0.0.0"
     };
 
     beforeEach(() => {
@@ -30,7 +30,7 @@ describe('getState', () => {
     });
 
     test("state is pulled from storage", () => {
-      expect(getState().version).toEqual("0.0.3");
+      expect(getState().version).toEqual("0.0.1");
     });
 
   });

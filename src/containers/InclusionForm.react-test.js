@@ -4,9 +4,9 @@ import { InclusionForm } from './InclusionForm.react';
 import InclusionContrast from '../components/InclusionContrast.react';
 import InclusionDimensions from '../components/InclusionDimensions.react';
 import InclusionPosition from '../components/InclusionPosition.react';
-import commandActions from '../actions/commandActions';
+import calculatorActions from '../actions/calculatorActions';
 
-jest.mock('../actions/commandActions');
+jest.mock('../actions/calculatorActions');
 
 function setup(props) {
   return shallow(<InclusionForm {...props}></InclusionForm>);

@@ -3,7 +3,7 @@ import React from "react";
 export default class InclusionPosition extends React.Component {
   render() {
     return (
-      <fieldset className="inline">
+      <fieldset>
         <legend>Inclusion Position</legend>
         <div className="pure-g center">
           <div className="pure-u-1-4">

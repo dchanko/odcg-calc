@@ -1,7 +1,7 @@
 import Rx from 'rxjs';
-import commandReducer$ from './commandReducer';
+import calculatorReducer$ from './calculatorReducer';
 
 export default Rx.Observable.merge(
-  commandReducer$
+  calculatorReducer$
 );
 
