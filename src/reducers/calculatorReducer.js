@@ -4,10 +4,16 @@ import { calculateScore, calculateCombinedScore } from '../services/calculator';
 
 export default Rx.Observable.merge(
 
-  commands.actions.inclusionAdded$.map(commandText => state => {
+  commands.actions.addInclusion$.map(commandText => state => {
     //return updateCommand(state, commandText);
   }),
-  commands.actions.inclusionRemoved$.map(_ => state => {
+  commands.actions.removeInclusion$.map(_ => state => {
+    //return performCommand(state);
+  }),
+  commands.actions.editInclusion$.map(_ => state => {
+    //return performCommand(state);
+  }),
+  commands.actions.fieldUpdated$.map(_ => state => {
     //return performCommand(state);
   }),
   commands.actions.clear$.map(_ => state => {

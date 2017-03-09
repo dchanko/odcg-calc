@@ -1,3 +1,9 @@
 import createActions from './createActions';
 
-export default createActions(["inclusionAdded", "inclusionRemoved", "clear"]);
+export default createActions([
+  "fieldUpdated",
+  "addInclusion",
+  "removeInclusion",
+  "editInclusion",
+  "clear"
+]);
