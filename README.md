@@ -1,7 +1,7 @@
-# js-starter
-JavaScript project starter based on the Pluralsight course "Building a JavaScript Development Environment".
+# Objective Diamond Clarity Grading Calculator
+JS widget that provides an implementation of the techniques in [Objective Diamond Clarity Grading](http://acagemlab.com/objective-diamond-clarity-grading-2/).
 
-[![Build Status](https://travis-ci.org/dchanko/js-starter.svg?branch=master)](https://travis-ci.org/dchanko/js-starter)
+[![Build Status](https://travis-ci.org/dchanko/odcg-calc.svg?branch=master)](https://travis-ci.org/dchanko/odcg-calc)
 
 ## Installs
 * VS Code
@@ -9,5 +9,6 @@ JavaScript project starter based on the Pluralsight course "Building a JavaScrip
 * Node, npm
 
 ## Steps
-* Run npm install
+* npm install
 * npm start -s
+* npm run build
