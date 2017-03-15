@@ -4,19 +4,24 @@ const defaultState = {
   version: currentVersion,
   diamond: {
     length: 0,
-    width: 0
+    width: 0,
+    grade: {
+      score: 0,
+      gia: ""
+    }
   },
   inclusion: {
     length: 0,
     width: 0,
-    contrast: .5,
-    position: 1
+    contrast: 3,
+    position: 1,
+    grade: {
+      score: 0,
+      gia: ""
+    }
   },
   inclusions: [],
-  grade: {
-    score: 0,
-    gia: ""
-  }
+  errors: {}
 };
 
 export function getState() {
