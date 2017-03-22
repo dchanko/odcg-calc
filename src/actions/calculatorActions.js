@@ -1,7 +1,8 @@
 import createActions from './createActions';
 
 export default createActions([
-  "fieldUpdated",
+  "diamondUpdated",
+  "inclusionUpdated",
   "addInclusion",
   "removeInclusion",
   "editInclusion",

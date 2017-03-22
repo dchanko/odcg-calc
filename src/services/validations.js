@@ -67,7 +67,7 @@ let validateInclusionPositionOneToFour = (state) => {
   };
 };
 
-export default {
+export let validations = {
   diamond: {
     length: validateDiamondLength,
     width: validateDiamondWidth
@@ -80,4 +80,21 @@ export default {
     position: validateInclusionPositionRequired,
     positionRange: validateInclusionPositionOneToFour
   }
+};
+
+export default (state) => {
+  const inclusionVals = validations.inclusion;
+  const diamondVals = validations.diamond;
+  return {
+    diamond: Object.assign.apply({},
+                    Object.keys(diamondVals)
+                          .map(k => diamondVals[k](state))
+                          .filter(v => Object.keys(v).length > 0)
+                          .map(v => v.diamond)),
+    inclusion: Object.assign.apply({},
+                      Object.keys(inclusionVals)
+                            .map(k => inclusionVals[k](state))
+                            .filter(v => Object.keys(v).length > 0)
+                            .map(v => v.inclusion))
+  };
 };

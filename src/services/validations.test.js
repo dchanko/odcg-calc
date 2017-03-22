@@ -1,4 +1,4 @@
-import validations from "./validations";
+import validate, { validations } from "./validations";
 
 describe('validations', () => {
   let state = {};
@@ -120,6 +120,30 @@ describe('validations', () => {
       expect(validations.inclusion.positionRange(state)).toEqual({});
     });
 
+  });
+
+});
+
+describe('validate', () => {
+
+  test('invalid inclusion', () => {
+    expect(validate({
+      diamond: {
+        width: 6.5
+      },
+      inclusion: {
+        length: 0.4
+      }
+    })).toEqual({
+      diamond: {
+        length: "Length required."
+      },
+      inclusion: {
+        position: "Must be between 1 and 4.",
+        contrast: "Must be between 1 and 5.",
+        width: "Width required."
+      }
+    });
   });
 
 });
