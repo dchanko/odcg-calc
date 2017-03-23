@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 
 const currentVersion = "0.0.1";
 const defaultState = {
@@ -10,7 +11,8 @@ const defaultState = {
       gia: ""
     }
   },
-  inclusion: {
+  inclusionIndex: 0,
+  inclusions: [{
     length: 0,
     width: 0,
     contrast: 3,
@@ -19,8 +21,7 @@ const defaultState = {
       score: 0,
       gia: ""
     }
-  },
-  inclusions: [],
+  }],
   errors: {}
 };
 
@@ -30,8 +31,8 @@ export function getState() {
 
   if (saved) {
     try {
-      const parsed = JSON.parse(saved);
-      if (parsed.version === currentVersion) {
+      const parsed = Map(JSON.parse(saved));
+      if (parsed.get('version') === currentVersion) {
         initialState = parsed;
       } else {
         initialState = defaultState;
@@ -40,9 +41,10 @@ export function getState() {
       initialState = defaultState;
     }
   }
-  return initialState;
+  return Map(initialState);
 };
 
 export function saveState(state) {
+  //console.log(state.toJS());
   localStorage.setItem("state", JSON.stringify(state))
 };

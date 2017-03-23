@@ -8,7 +8,7 @@ function setup(props) {
 
 describe('DiamondForm', () => {
   test('Displays fields for diamond information.', () => {
-    const wrapper = setup({});
+    const wrapper = setup({ length: 1, width: 2 });
     const form = wrapper.find("form");
     expect(form).not.toBeNull();
   });

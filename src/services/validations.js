@@ -15,32 +15,32 @@ let validateDiamondWidth = (state) => {
   };
 };
 
-let validateInclusionLength = (state) => {
-  return state.inclusion.length ? {} : {
+let validateInclusionLength = (inclusion) => {
+  return inclusion.length ? {} : {
     inclusion: {
       length: "Length required."
     }
   };
 };
 
-let validateInclusionWidth = (state) => {
-  return state.inclusion.width ? {} : {
+let validateInclusionWidth = (inclusion) => {
+  return inclusion.width ? {} : {
     inclusion: {
       width: "Width required."
     }
   };
 };
 
-let validateInclusionContrastRequired = (state) => {
-  return state.inclusion.contrast ? {} : {
+let validateInclusionContrastRequired = (inclusion) => {
+  return inclusion.contrast ? {} : {
     inclusion: {
       contrast: "Contrast required."
     }
   };
 };
 
-let validateInclusionContrastOneToFive = (state) => {
-  const contrast = state.inclusion.contrast;
+let validateInclusionContrastOneToFive = (inclusion) => {
+  const contrast = inclusion.contrast;
   const valid = contrast >= 1 && contrast <= 5;
   return valid ? {} : {
     inclusion: {
@@ -49,16 +49,16 @@ let validateInclusionContrastOneToFive = (state) => {
   };
 };
 
-let validateInclusionPositionRequired = (state) => {
-  return state.inclusion.position ? {} : {
+let validateInclusionPositionRequired = (inclusion) => {
+  return inclusion.position ? {} : {
     inclusion: {
       position: "Position required."
     }
   };
 };
 
-let validateInclusionPositionOneToFour = (state) => {
-  const position = state.inclusion.position;
+let validateInclusionPositionOneToFour = (inclusion) => {
+  const position = inclusion.position;
   const valid = position >= 1 && position <= 4;
   return valid ? {} : {
     inclusion: {
@@ -93,7 +93,7 @@ export default (state) => {
                           .map(v => v.diamond)),
     inclusion: Object.assign.apply({},
                       Object.keys(inclusionVals)
-                            .map(k => inclusionVals[k](state))
+                            .map(k => inclusionVals[k](state.inclusions[state.inclusionIndex]))
                             .filter(v => Object.keys(v).length > 0)
                             .map(v => v.inclusion))
   };

@@ -1,21 +1,22 @@
 import { getState, saveState } from "./storage";
 import localStorage from "../__mocks__/localStorage";
+import { Map } from 'immutable';
 
 window.localStorage = localStorage;
 
 describe('getState', () => {
 
   describe('state has current version', () => {
-    const currentState = {
+    const currentState = Map({
       version: "0.0.1"
-    };
+    });
 
     beforeEach(() => {
       localStorage.setItem("state", JSON.stringify(currentState));
     });
 
     test("state is pulled from storage", () => {
-      expect(getState()).toEqual(currentState);
+      expect(getState().get('version')).toEqual(currentState.get('version'));
     });
 
   });
@@ -30,7 +31,7 @@ describe('getState', () => {
     });
 
     test("state is pulled from storage", () => {
-      expect(getState().version).toEqual("0.0.1");
+      expect(getState().get('version')).toEqual("0.0.1");
     });
 
   });
