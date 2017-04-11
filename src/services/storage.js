@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 const currentVersion = "0.0.1";
 const defaultState = {
@@ -31,8 +31,8 @@ export function getState() {
 
   if (saved) {
     try {
-      const parsed = Map(JSON.parse(saved));
-      if (parsed.get('version') === currentVersion) {
+      const parsed = JSON.parse(saved);
+      if (parsed.version === currentVersion) {
         initialState = parsed;
       } else {
         initialState = defaultState;
@@ -41,10 +41,9 @@ export function getState() {
       initialState = defaultState;
     }
   }
-  return Map(initialState);
+  return fromJS(initialState);
 };
 
 export function saveState(state) {
-  //console.log(state.toJS());
-  localStorage.setItem("state", JSON.stringify(state))
+  localStorage.setItem("state", JSON.stringify(state.toJS()))
 };

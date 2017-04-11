@@ -3,7 +3,8 @@ import configureStore from './configureStore';
 import reducer$ from "../reducers";
 import { getState, saveState } from "../services/storage";
 
-const store = configureStore(reducer$, getState());
+const initialState = getState();
+const store = configureStore(reducer$, initialState);
 store.subscribe(saveState);
 
 export default store;

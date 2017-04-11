@@ -5,7 +5,7 @@ export default function createActions(names) {
     const action = new Rx.Subject();
     return Object.assign({}, acc, {
       actions: Object.assign({}, acc.actions, { [`${name}$`]: action }),
-      [name]: (...args) => action.next.apply(action, args)
+      [name]: (x) => action.next(x)
     });
   }, { actions: {} });
 }

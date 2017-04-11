@@ -9,9 +9,9 @@ export class InclusionForm extends React.Component {
   render() {
     return (
       <form className="pure-form pure-form-stacked">
-        <InclusionDimensions />
-        <InclusionContrast />
-        <InclusionPosition />
+        <InclusionDimensions {...this.props}/>
+        <InclusionContrast {...this.props} />
+        <InclusionPosition {...this.props} />
         <fieldset className="inline">
           <input type="submit" className="pure-button pure-button-primary" name="action" value="Calculate" />
           <input type="submit" className="pure-button pure-button-primary" name="action" value="Add" />
@@ -25,8 +25,9 @@ InclusionForm.propTypes = {
   //command: PropTypes.object.isRequired
 };
 
-export default connect(state => ({ command: state.command }))(InclusionForm);
-
+export default connect(state => {
+  return state.get('inclusions').get(state.get('inclusionIndex')).toJS();
+})(InclusionForm);
 
 
 

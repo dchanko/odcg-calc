@@ -1,6 +1,26 @@
 import React from "react";
+import calculatorActions from '../actions/calculatorActions';
 
 export default class InclusionContrast extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      contrast: this.props.contrast,
+    };
+  }
+  updateField(event) {
+    this.setState({ [event.target.name]: event.target.value });
+    let contrastAdjustment = parseFloat(event.target.value);
+    if (contrastAdjustment < 0) {
+      contrastAdjustment *= 2;
+    }
+    calculatorActions.inclusionUpdated({ [event.target.name]: contrastAdjustment });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.contrast - this.state.contrast > 0.05) {
+      this.setState({ contrast: nextProps.contrast });
+    }
+  }
   render() {
     return (
       <fieldset>
@@ -9,7 +29,7 @@ export default class InclusionContrast extends React.Component {
           <div className="pure-u-4-24">
             &nbsp;
           </div>
-          <input className="pure-u-16-24" type="range" name="c" min="-1" max="1" step=".01" />
+          <input className="pure-u-16-24" type="range" name="contrast" min="-1" max="1" step=".05" value={this.state.contrast} onChange={this.updateField.bind(this)}/>
           <div className="pure-u-4-24">
             &nbsp;
           </div>

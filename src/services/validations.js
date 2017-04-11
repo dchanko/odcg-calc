@@ -32,19 +32,19 @@ let validateInclusionWidth = (inclusion) => {
 };
 
 let validateInclusionContrastRequired = (inclusion) => {
-  return inclusion.contrast ? {} : {
+  return undefined != inclusion.contrast ? {} : {
     inclusion: {
       contrast: "Contrast required."
     }
   };
 };
 
-let validateInclusionContrastOneToFive = (inclusion) => {
+let validateInclusionContrastRange = (inclusion) => {
   const contrast = inclusion.contrast;
-  const valid = contrast >= 1 && contrast <= 5;
+  const valid = contrast >= -2 && contrast <= 1;
   return valid ? {} : {
     inclusion: {
-      contrast: "Must be between 1 and 5."
+      contrast: "Must be between -2 and 1."
     }
   };
 };
@@ -76,7 +76,7 @@ export let validations = {
     length: validateInclusionLength,
     width: validateInclusionWidth,
     contrast: validateInclusionContrastRequired,
-    contrastRange: validateInclusionContrastOneToFive,
+    contrastRange: validateInclusionContrastRange,
     position: validateInclusionPositionRequired,
     positionRange: validateInclusionPositionOneToFour
   }
@@ -85,16 +85,19 @@ export let validations = {
 export default (state) => {
   const inclusionVals = validations.inclusion;
   const diamondVals = validations.diamond;
-  return {
-    diamond: Object.assign.apply({},
+  const result =  {
+    diamond: Object.assign({},
                     Object.keys(diamondVals)
                           .map(k => diamondVals[k](state))
                           .filter(v => Object.keys(v).length > 0)
-                          .map(v => v.diamond)),
-    inclusion: Object.assign.apply({},
-                      Object.keys(inclusionVals)
+                          .map(v => v.diamond)
+                          .reduce((acc, err) => Object.assign({}, acc, err), {})),
+    inclusion: Object.assign({},
+                    Object.keys(inclusionVals)
                             .map(k => inclusionVals[k](state.inclusions[state.inclusionIndex]))
                             .filter(v => Object.keys(v).length > 0)
-                            .map(v => v.inclusion))
+                            .map(v => v.inclusion)
+                            .reduce((acc, err) => Object.assign({}, acc, err), {}))
   };
+  return result;
 };

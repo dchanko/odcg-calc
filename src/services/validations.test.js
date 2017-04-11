@@ -88,7 +88,7 @@ describe('validations', () => {
     });
 
     test('valid', () => {
-      state.inclusions[0].contrast = 5;
+      state.inclusions[0].contrast = 0.5;
       expect(validations.inclusion.contrastRange(state.inclusions[0])).toEqual({});
     });
 
@@ -142,7 +142,7 @@ describe('validate', () => {
       },
       inclusion: {
         position: "Must be between 1 and 4.",
-        contrast: "Must be between 1 and 5.",
+        contrast: "Must be between -2 and 1.",
         width: "Width required."
       }
     });

@@ -41,8 +41,9 @@ describe('getState', () => {
 describe('saveState', () => {
 
   test('sets the localStorage value to the supplied state', () => {
-    saveState("Hello, World");
-    expect(localStorage.getItem("state")).toBe(JSON.stringify("Hello, World"));
+    const state = Map({ greet: "Hello, World" });
+    saveState(state);
+    expect(localStorage.getItem("state")).toBe(JSON.stringify(state));
   });
 
 });

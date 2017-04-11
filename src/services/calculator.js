@@ -1,13 +1,31 @@
 export function calculateScore(diamond, inclusion) {
-  let gradedInclusion = calculateInclusionScore(inclusion);
-  return scaleInclusionScore(diamond, gradedInclusion);
+  const scaledInclusion = scaleInclusion(diamond, inclusion);
+  return calculateInclusionScore(scaledInclusion);
 };
 
+function scaleInclusion(diamond, inclusion) {
+  const diamondArea = diamond.length * diamond.width;
+  const tenPercentOfDiamondArea = diamondArea * 0.1;
+  const oneCaratArea = 6.5 * 6.5;
+  const inclusionArea = inclusion.length * inclusion.width;
+  const isLargeDiamond = diamondArea > oneCaratArea;
+  const shouldScale = isLargeDiamond && inclusionArea > tenPercentOfDiamondArea;
+  if (shouldScale) {
+    const scalingFactor = Math.sqrt(oneCaratArea) / Math.sqrt(diamondArea);
+    return Object.assign({}, inclusion, {
+      length: inclusion.length * scalingFactor,
+      width: inclusion.width * scalingFactor
+    });
+  }
+  return inclusion;
+}
+
 function calculateInclusionScore(inclusion) {
-  let score = log2(Math.sqrt(inclusion.length * 1000 * inclusion.width * 1000) / 50);
+  let score = log2(Math.sqrt(inclusion.length * 1000 * inclusion.width * 1000 / 25));
   score = adjustForContrast(score, inclusion.contrast);
   score = adjustForPosition(score, inclusion.position);
-  return  Object.assign({}, inclusion, {
+  score = Math.max(0, score);
+  return Object.assign({}, inclusion, {
     grade: {
       score: score,
       gia: getGiaScore(score)
@@ -20,24 +38,11 @@ function log2(val) {
 }
 
 function adjustForContrast(score, contrast) {
-  switch (contrast) {
-    case 1:
-      return score - 2.0;
-    case 2:
-      return score - 1.0;
-    case 3:
-      return score;
-    case 4:
-      return score + 0.5;
-    case 5:
-      return score + 1.0;
-    default:
-      return score;
-  }
+  return score + contrast;
 }
 
-function adjustForPosition(score, contrast) {
-  switch (contrast) {
+function adjustForPosition(score, position) {
+  switch (position) {
     case 1:
       return score;
     case 2:
@@ -53,10 +58,6 @@ function adjustForPosition(score, contrast) {
     default:
       return score;
   }
-}
-
-function scaleInclusionScore(diamond, gradedInclusion) {
-  return gradedInclusion;
 }
 
 export function calculateCombinedScore(diamond, inclusions) {
