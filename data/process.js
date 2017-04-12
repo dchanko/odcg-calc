@@ -3,6 +3,7 @@ import fs from 'fs';
 import parse from 'csv-parse';
 import stringify from "csv-stringify";
 import transform from 'stream-transform';
+import { fromJS } from 'immutable';
 import Rx from 'rxjs';
 import rxNode from 'rx-node';
 import { calculateScore, calculateCombinedScore } from '../src/services/calculator';
@@ -58,21 +59,22 @@ var sub = rxNode.fromTransformStream(transformer).share()
                     diamond: false,
                     inclusions: []
                   }))
+                .map(js => fromJS(js))
                 //.filter(entry => entry.diamond.name == "93")
                 .map(entry => {
-                  var inclusionScores = entry.inclusions.map(i => {
-                    return calculateScore(entry.diamond, i);
+                  var inclusionScores = entry.get('inclusions').map(i => {
+                    return calculateScore(entry.get('diamond'), i);
                   });
-                  var combinedScore = calculateCombinedScore(entry.diamond, inclusionScores);
+                  var combinedScore = calculateCombinedScore(entry.get('diamond'), inclusionScores);
                   return {
-                    name: entry.diamond.name,
+                    name: entry.getIn(['diamond', 'name']),
                     expected: {
-                      gia: entry.diamond.grade.gia,
-                      score: entry.diamond.grade.score
+                      gia: entry.getIn(['diamond', 'grade', 'gia']),
+                      score: entry.getIn(['diamond', 'grade', 'score'])
                     },
                     actual: {
-                      gia: combinedScore.grade.gia,
-                      score: combinedScore.grade.score
+                      gia: combinedScore.getIn(['grade', 'gia']),
+                      score: combinedScore.getIn(['grade', 'score'])
                     }
                   };
                 })
