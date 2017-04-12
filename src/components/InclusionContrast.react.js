@@ -4,8 +4,9 @@ import calculatorActions from '../actions/calculatorActions';
 export default class InclusionContrast extends React.Component {
   constructor(props, context) {
     super(props, context);
+    const data = props.data;
     this.state = {
-      contrast: this.props.contrast,
+      contrast: data.get('contrast')
     };
   }
   updateField(event) {
@@ -17,8 +18,9 @@ export default class InclusionContrast extends React.Component {
     calculatorActions.inclusionUpdated({ [event.target.name]: contrastAdjustment });
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.contrast - this.state.contrast > 0.05) {
-      this.setState({ contrast: nextProps.contrast });
+    const data = nextProps.data;
+    if (data.get('contrast') - this.state.contrast > 0.05) {
+      this.setState({ contrast: data.get('contrast') });
     }
   }
   render() {

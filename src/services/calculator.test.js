@@ -2,6 +2,7 @@ import {
   calculateScore,
   calculateCombinedScore
 } from "./calculator";
+import { fromJS } from 'immutable';
 
 
 describe('calculations', () => {
@@ -35,13 +36,13 @@ describe('calculations', () => {
       test('VVS1: no contrast adjustment', () => {
         inclusion.length = 0.01;
         inclusion.width = 0.01;
-        expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 1.0, gia: "VVS1" });
+        expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 1.0, gia: "VVS1" });
       });
 
       test('VVS2: no contrast adjustment', () => {
         inclusion.length = 0.02;
         inclusion.width = 0.02;
-        expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 2.0, gia: "VVS2" });
+        expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 2.0, gia: "VVS2" });
       });
 
       describe('contrast adjustment', () => {
@@ -52,27 +53,27 @@ describe('calculations', () => {
 
         test('light contrast (1): two grades better', () => {
           inclusion.contrast = -2;
-          expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 1.0, gia: "VVS1" });
+          expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 1.0, gia: "VVS1" });
         });
 
         test('light-medium contrast (2): one grade better', () => {
           inclusion.contrast = -1;
-          expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 2.0, gia: "VVS2" });
+          expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 2.0, gia: "VVS2" });
         });
 
         test('medium contrast (3): no change', () => {
           inclusion.contrast = 0;
-          expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 3.0, gia: "VS1" });
+          expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 3.0, gia: "VS1" });
         });
 
          test('medium-dark contrast (4): half-grade worse', () => {
           inclusion.contrast = 0.5;
-          expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 3.5, gia: "VS1" });
+          expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 3.5, gia: "VS1" });
         });
 
          test('dark contrast (5): one grade worse', () => {
           inclusion.contrast = 1;
-          expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 4.0, gia: "VS2" });
+          expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 4.0, gia: "VS2" });
         });
 
       });
@@ -81,7 +82,7 @@ describe('calculations', () => {
 
         test('Under table (1): no adjustment', () => {
           inclusion.position = 1;
-          expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 1.0, gia: "VVS1" });
+          expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 1.0, gia: "VVS1" });
         });
 
         describe('Just outside table (2)', () => {
@@ -93,13 +94,13 @@ describe('calculations', () => {
           test('VS2 or better: quarter grade better', () => {
             inclusion.length = 0.08;
             inclusion.width = 0.08;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 3.75, gia: "VS1" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 3.75, gia: "VS1" });
           });
 
           test('SI1 or worse: no adjustment', () => {
             inclusion.length = .16;
             inclusion.width = .16;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 5.0, gia: "SI1" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 5.0, gia: "SI1" });
           });
 
         });
@@ -113,19 +114,19 @@ describe('calculations', () => {
           test('VS2 or better: half grade better', () => {
             inclusion.length = 0.08;
             inclusion.width = 0.08;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 3.5, gia: "VS1" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 3.5, gia: "VS1" });
           });
 
           test('SI1 or better: quarter grade better', () => {
             inclusion.length = .16;
             inclusion.width = .16;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 4.75, gia: "VS2" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 4.75, gia: "VS2" });
           });
 
           test('SI2 or worse: no adjustment', () => {
             inclusion.length = .32;
             inclusion.width = .32;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 6.0, gia: "SI2" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 6.0, gia: "SI2" });
           });
 
         });
@@ -139,19 +140,19 @@ describe('calculations', () => {
           test('VS2 or better: full grade better', () => {
             inclusion.length = 0.08;
             inclusion.width = 0.08;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 3.0, gia: "VS1" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 3.0, gia: "VS1" });
           });
 
           test('SI1 or better: half grade better', () => {
             inclusion.length = 0.16;
             inclusion.width = 0.16;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 4.5, gia: "VS2" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 4.5, gia: "VS2" });
           });
 
           test('SI2 or worse: no adjustment', () => {
             inclusion.length = 0.32;
             inclusion.width = 0.32;
-            expect(calculateScore(diamond, inclusion).grade).toEqual({ score: 6.0, gia: "SI2" });
+            expect(calculateScore(fromJS(diamond), fromJS(inclusion)).get('grade').toJS()).toEqual({ score: 6.0, gia: "SI2" });
           });
 
         });
@@ -171,12 +172,11 @@ describe('calculations', () => {
     let inclusions = [];
 
     test('returns copy of diamond', () => {
-      result = calculateCombinedScore(diamond, inclusions);
-      expect(result).not.toBe(diamond);
-      expect(result.length).toEqual(diamond.length);
-      expect(result.width).toEqual(diamond.width);
-      expect(result.contrast).toEqual(diamond.contrast);
-      expect(result.position).toEqual(diamond.position);
+      result = calculateCombinedScore(fromJS(diamond), fromJS(inclusions));
+      expect(result.get('length')).toEqual(diamond.length);
+      expect(result.get('width')).toEqual(diamond.width);
+      expect(result.get('contrast')).toEqual(diamond.contrast);
+      expect(result.get('position')).toEqual(diamond.position);
     });
 
     describe('one inclusion', () => {
@@ -191,9 +191,9 @@ describe('calculations', () => {
       });
 
       test('returns single score', () => {
-        result = calculateCombinedScore(diamond, inclusions);
-        expect(result.grade.score).toBe(2);
-        expect(result.grade.gia).toBe("VVS2");
+        result = calculateCombinedScore(fromJS(diamond), fromJS(inclusions));
+        expect(result.getIn(['grade','score'])).toBe(2);
+        expect(result.getIn(['grade','gia'])).toBe("VVS2");
       });
 
     });
@@ -225,9 +225,9 @@ describe('calculations', () => {
       });
 
       test('returns combined score', () => {
-        result = calculateCombinedScore(diamond, inclusions);
-        expect(result.grade.score).toBe(3);
-        expect(result.grade.gia).toBe("VS1");
+        result = calculateCombinedScore(fromJS(diamond), fromJS(inclusions));
+        expect(result.getIn(['grade','score'])).toBe(3);
+        expect(result.getIn(['grade','gia'])).toBe("VS1");
       });
 
     });
@@ -259,9 +259,9 @@ describe('calculations', () => {
       });
 
       test('returns combined score', () => {
-        result = calculateCombinedScore(diamond, inclusions);
-        expect(result.grade.score).toBe(10);
-        expect(result.grade.gia).toBe("Reject");
+        result = calculateCombinedScore(fromJS(diamond), fromJS(inclusions));
+        expect(result.getIn(['grade', 'score'])).toBe(10);
+        expect(result.getIn(['grade', 'gia'])).toBe("Reject");
       });
 
     });

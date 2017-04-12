@@ -1,36 +1,35 @@
+import { fromJS } from 'immutable';
+
 export function calculateScore(diamond, inclusion) {
   const scaledInclusion = scaleInclusion(diamond, inclusion);
   return calculateInclusionScore(scaledInclusion);
 };
 
 function scaleInclusion(diamond, inclusion) {
-  const diamondArea = diamond.length * diamond.width;
+  const diamondArea = diamond.get('length') * diamond.get('width');
   const tenPercentOfDiamondArea = diamondArea * 0.1;
   const oneCaratArea = 6.5 * 6.5;
-  const inclusionArea = inclusion.length * inclusion.width;
+  const inclusionArea = inclusion.get('length') * inclusion.get('width');
   const isLargeDiamond = diamondArea > oneCaratArea;
   const shouldScale = isLargeDiamond && inclusionArea > tenPercentOfDiamondArea;
+  let scaledInclusion = inclusion;
   if (shouldScale) {
     const scalingFactor = Math.sqrt(oneCaratArea) / Math.sqrt(diamondArea);
-    return Object.assign({}, inclusion, {
-      length: inclusion.length * scalingFactor,
-      width: inclusion.width * scalingFactor
-    });
+    scaledInclusion = inclusion.set('length', inclusion.get('length') * scalingFactor);
+    scaledInclusion = inclusion.set('width', inclusion.get('width') * scalingFactor);
   }
-  return inclusion;
+  return scaledInclusion;
 }
 
 function calculateInclusionScore(inclusion) {
-  let score = log2(Math.sqrt(inclusion.length * 1000 * inclusion.width * 1000 / 25));
-  score = adjustForContrast(score, inclusion.contrast);
-  score = adjustForPosition(score, inclusion.position);
+  let score = log2(Math.sqrt(inclusion.get('length') * 1000 * inclusion.get('width') * 1000 / 25));
+  score = adjustForContrast(score, inclusion.get('contrast'));
+  score = adjustForPosition(score, inclusion.get('position'));
   score = Math.max(0, score);
-  return Object.assign({}, inclusion, {
-    grade: {
-      score: score,
-      gia: getGiaScore(score)
-    }
-  });
+  let scoredInclusion = inclusion;
+  scoredInclusion = scoredInclusion.setIn(['grade', 'score'], score);
+  scoredInclusion = scoredInclusion.setIn(['grade', 'gia'], getGiaScore(score));
+  return scoredInclusion;
 }
 
 function log2(val) {
@@ -61,24 +60,22 @@ function adjustForPosition(score, position) {
 }
 
 export function calculateCombinedScore(diamond, inclusions) {
-  return Object.assign({}, diamond, combineGrade(inclusions));
+  return diamond.set('grade', combineGrade(inclusions));
 };
 
 const denominator = 25;
 
 function combineGrade(inclusions) {
   const score = combineScores(inclusions);
-  return {
-    grade: {
-      score: score,
-      gia: getGiaScore(score)
-    }
-  };
+  return fromJS({
+    score: score,
+    gia: getGiaScore(score)
+  });
 }
 
 function combineScores(inclusions) {
-  return inclusions.length > 0
-            ? log4(inclusions.map(i => i.grade.score)
+  return inclusions.count() > 0
+            ? log4(inclusions.map(i => i.getIn(['grade', 'score']))
                              .map(invertScore)
                              .reduce((acc, score) => acc + score, 0))
             : 0;

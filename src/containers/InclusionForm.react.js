@@ -22,11 +22,13 @@ export class InclusionForm extends React.Component {
 }
 
 InclusionForm.propTypes = {
-  //command: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };
 
 export default connect(state => {
-  return state.get('inclusions').get(state.get('inclusionIndex')).toJS();
+  return {
+    data: state.get('inclusions').get(state.get('inclusionIndex'))
+  };
 })(InclusionForm);
 
 

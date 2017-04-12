@@ -1,6 +1,7 @@
+import { Map } from 'immutable';
 
 let validateDiamondLength = (state) => {
-  return state.diamond.length ? {} : {
+  return state.get('diamond').get('length') ? {} : {
     diamond: {
       length: "Length required."
     }
@@ -8,7 +9,7 @@ let validateDiamondLength = (state) => {
 };
 
 let validateDiamondWidth = (state) => {
-  return state.diamond.width ? {} : {
+  return state.get('diamond').get('width') ? {} : {
     diamond: {
       width: "Width required."
     }
@@ -16,7 +17,7 @@ let validateDiamondWidth = (state) => {
 };
 
 let validateInclusionLength = (inclusion) => {
-  return inclusion.length ? {} : {
+  return inclusion.get('length') ? {} : {
     inclusion: {
       length: "Length required."
     }
@@ -24,7 +25,7 @@ let validateInclusionLength = (inclusion) => {
 };
 
 let validateInclusionWidth = (inclusion) => {
-  return inclusion.width ? {} : {
+  return inclusion.get('width') ? {} : {
     inclusion: {
       width: "Width required."
     }
@@ -32,7 +33,7 @@ let validateInclusionWidth = (inclusion) => {
 };
 
 let validateInclusionContrastRequired = (inclusion) => {
-  return undefined != inclusion.contrast ? {} : {
+  return undefined != inclusion.get('contrast') ? {} : {
     inclusion: {
       contrast: "Contrast required."
     }
@@ -40,7 +41,7 @@ let validateInclusionContrastRequired = (inclusion) => {
 };
 
 let validateInclusionContrastRange = (inclusion) => {
-  const contrast = inclusion.contrast;
+  const contrast = inclusion.get('contrast');
   const valid = contrast >= -2 && contrast <= 1;
   return valid ? {} : {
     inclusion: {
@@ -50,7 +51,7 @@ let validateInclusionContrastRange = (inclusion) => {
 };
 
 let validateInclusionPositionRequired = (inclusion) => {
-  return inclusion.position ? {} : {
+  return inclusion.get('position') ? {} : {
     inclusion: {
       position: "Position required."
     }
@@ -58,7 +59,7 @@ let validateInclusionPositionRequired = (inclusion) => {
 };
 
 let validateInclusionPositionOneToFour = (inclusion) => {
-  const position = inclusion.position;
+  const position = inclusion.get('position');
   const valid = position >= 1 && position <= 4;
   return valid ? {} : {
     inclusion: {
@@ -85,19 +86,17 @@ export let validations = {
 export default (state) => {
   const inclusionVals = validations.inclusion;
   const diamondVals = validations.diamond;
-  const result =  {
-    diamond: Object.assign({},
-                    Object.keys(diamondVals)
-                          .map(k => diamondVals[k](state))
-                          .filter(v => Object.keys(v).length > 0)
-                          .map(v => v.diamond)
-                          .reduce((acc, err) => Object.assign({}, acc, err), {})),
-    inclusion: Object.assign({},
-                    Object.keys(inclusionVals)
-                            .map(k => inclusionVals[k](state.inclusions[state.inclusionIndex]))
-                            .filter(v => Object.keys(v).length > 0)
-                            .map(v => v.inclusion)
-                            .reduce((acc, err) => Object.assign({}, acc, err), {}))
-  };
+  const result =  Map({
+    diamond: Object.keys(diamondVals)
+                   .map(k => diamondVals[k](state))
+                   .filter(v => Object.keys(v).length > 0)
+                   .map(v => v.diamond)
+                   .reduce((acc, err) => acc.mergeDeep(err), Map({})),
+    inclusion: Object.keys(inclusionVals)
+                     .map(k => inclusionVals[k](state.get('inclusions').get(state.get('inclusionIndex'))))
+                     .filter(v => Object.keys(v).length > 0)
+                     .map(v => v.inclusion)
+                     .reduce((acc, err) => acc.mergeDeep(err), Map({}))
+  });
   return result;
 };

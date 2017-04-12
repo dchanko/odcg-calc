@@ -1,12 +1,16 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { DiamondForm } from './DiamondForm.react';
+import { fromJS } from 'immutable';
 import calculatorActions from '../actions/calculatorActions';
 
 jest.mock('../actions/calculatorActions');
 
 function setup(props) {
-  return mount(<DiamondForm {...props}></DiamondForm>);
+  var data = {
+    data: fromJS(props)
+  };
+  return mount(<DiamondForm {...data}></DiamondForm>);
 }
 
 describe('DiamondForm', () => {

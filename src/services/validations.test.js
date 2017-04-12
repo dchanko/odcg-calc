@@ -1,4 +1,5 @@
 import validate, { validations } from "./validations";
+import { fromJS } from 'immutable';
 
 describe('validations', () => {
   let state = {};
@@ -14,12 +15,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.diamond.length = null;
-      expect(validations.diamond.length(state).diamond.length).toBeDefined();
+      expect(validations.diamond.length(fromJS(state)).diamond.length).toBeDefined();
     });
 
     test('valid', () => {
       state.diamond.length = 6.5;
-      expect(validations.diamond.length(state)).toEqual({});
+      expect(validations.diamond.length(fromJS(state))).toEqual({});
     });
 
   });
@@ -28,12 +29,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.diamond.width = null;
-      expect(validations.diamond.width(state).diamond.width).toBeDefined();
+      expect(validations.diamond.width(fromJS(state)).diamond.width).toBeDefined();
     });
 
     test('valid', () => {
       state.diamond.width = 6.5;
-      expect(validations.diamond.width(state)).toEqual({});
+      expect(validations.diamond.width(fromJS(state))).toEqual({});
     });
 
   });
@@ -42,12 +43,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.inclusions[0].length = null;
-      expect(validations.inclusion.length(state.inclusions[0]).inclusion.length).toBeDefined();
+      expect(validations.inclusion.length(fromJS(state.inclusions[0])).inclusion.length).toBeDefined();
     });
 
     test('valid', () => {
       state.inclusions[0].length = 6.5;
-      expect(validations.inclusion.length(state.inclusions[0])).toEqual({});
+      expect(validations.inclusion.length(fromJS(state.inclusions[0]))).toEqual({});
     });
 
   });
@@ -56,12 +57,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.inclusions[0].width = null;
-      expect(validations.inclusion.width(state.inclusions[0]).inclusion.width).toBeDefined();
+      expect(validations.inclusion.width(fromJS(state.inclusions[0])).inclusion.width).toBeDefined();
     });
 
     test('valid', () => {
       state.inclusions[0].width = 6.5;
-      expect(validations.inclusion.width(state.inclusions[0])).toEqual({});
+      expect(validations.inclusion.width(fromJS(state.inclusions[0]))).toEqual({});
     });
 
   });
@@ -70,12 +71,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.inclusions[0].contrast = null;
-      expect(validations.inclusion.contrast(state.inclusions[0]).inclusion.contrast).toBeDefined();
+      expect(validations.inclusion.contrast(fromJS(state.inclusions[0])).inclusion.contrast).toBeDefined();
     });
 
     test('valid', () => {
       state.inclusions[0].contrast = 0.50;
-      expect(validations.inclusion.contrast(state.inclusions[0])).toEqual({});
+      expect(validations.inclusion.contrast(fromJS(state.inclusions[0]))).toEqual({});
     });
 
   });
@@ -84,12 +85,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.inclusions[0].contrast = 6;
-      expect(validations.inclusion.contrastRange(state.inclusions[0]).inclusion.contrast).toBeDefined();
+      expect(validations.inclusion.contrastRange(fromJS(state.inclusions[0])).inclusion.contrast).toBeDefined();
     });
 
     test('valid', () => {
       state.inclusions[0].contrast = 0.5;
-      expect(validations.inclusion.contrastRange(state.inclusions[0])).toEqual({});
+      expect(validations.inclusion.contrastRange(fromJS(state.inclusions[0]))).toEqual({});
     });
 
   });
@@ -99,12 +100,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.inclusions[0].position = null;
-      expect(validations.inclusion.position(state.inclusions[0]).inclusion.position).toBeDefined();
+      expect(validations.inclusion.position(fromJS(state.inclusions[0])).inclusion.position).toBeDefined();
     });
 
     test('valid', () => {
       state.inclusions[0].position = 4;
-      expect(validations.inclusion.position(state.inclusions[0])).toEqual({});
+      expect(validations.inclusion.position(fromJS(state.inclusions[0]))).toEqual({});
     });
 
   });
@@ -113,12 +114,12 @@ describe('validations', () => {
 
     test('invalid', () => {
       state.inclusions[0].position = 6;
-      expect(validations.inclusion.positionRange(state.inclusions[0]).inclusion.position).toBeDefined();
+      expect(validations.inclusion.positionRange(fromJS(state.inclusions[0])).inclusion.position).toBeDefined();
     });
 
     test('valid', () => {
       state.inclusions[0].position = 4;
-      expect(validations.inclusion.positionRange(state.inclusions[0])).toEqual({});
+      expect(validations.inclusion.positionRange(fromJS(state.inclusions[0]))).toEqual({});
     });
 
   });
@@ -128,7 +129,7 @@ describe('validations', () => {
 describe('validate', () => {
 
   test('invalid inclusion', () => {
-    expect(validate({
+    expect(validate(fromJS({
       diamond: {
         width: 6.5
       },
@@ -136,7 +137,7 @@ describe('validate', () => {
       inclusions: [{
         length: 0.4
       }]
-    })).toEqual({
+    })).toJS()).toEqual({
       diamond: {
         length: "Length required."
       },

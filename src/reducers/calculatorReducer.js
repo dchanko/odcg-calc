@@ -29,13 +29,11 @@ export default Rx.Observable.merge(
 );
 
 function validateAndUpdate(state) {
-   var errors = validate(state.toJS());
+   var errors = validate(state);
     if (!hasErrors(errors)) {
-      state = state.setIn(['inclusions', state.get('inclusionIndex')],
-          fromJS(calculateScore(state.get('inclusions').toJS(),
-                                state.get('inclusions').get(state.get('inclusionIndex')).toJS())));
-      state = state.set('diamond',
-          fromJS(calculateCombinedScore(state.get('diamond').toJS(), state.get('inclusions').toJS())));
+      state = state.updateIn(['inclusions', state.get('inclusionIndex')], inclusion =>
+          calculateScore(state.get('diamond'), inclusion));
+      state = state.update('diamond', diamond => calculateCombinedScore(diamond, state.get('inclusions')));
       return state;
     } else {
       return state.set('errors', errors);
@@ -43,6 +41,6 @@ function validateAndUpdate(state) {
 }
 
 function hasErrors(errors) {
-  return Object.keys(errors.diamond).length > 0
-      || Object.keys(errors.inclusion).length > 0;
+  return errors.get('diamond').keys().length > 0
+      || errors.get('inclusion').keys().length > 0;
 }

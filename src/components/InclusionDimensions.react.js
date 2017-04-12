@@ -4,9 +4,10 @@ import calculatorActions from '../actions/calculatorActions';
 export default class InclusionDimensions extends React.Component {
   constructor(props, context) {
     super(props, context);
+    const data = props.data;
     this.state = {
-      length: this.props.length,
-      width: this.props.width
+      length: data.get('length'),
+      width: data.get('width')
     };
   }
   updateField(event) {
@@ -14,11 +15,12 @@ export default class InclusionDimensions extends React.Component {
     calculatorActions.inclusionUpdated({[event.target.name]: (parseFloat(event.target.value) || 0)});
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.length != 0 && parseFloat(this.state.length) != nextProps.length) {
-      this.setState({ length: nextProps.length });
+    const data = nextProps.data;
+    if (data.get('length') != 0 && parseFloat(this.state.length) != data.get('length')) {
+      this.setState({ length: data.get('length') });
     }
-    if (nextProps.width != 0 && parseFloat(this.state.width) != nextProps.width) {
-      this.setState({ width: nextProps.width });
+    if (data.get('width') != 0 && parseFloat(this.state.width) != data.get('width')) {
+      this.setState({ width: data.get('width') });
     }
   }
   render() {

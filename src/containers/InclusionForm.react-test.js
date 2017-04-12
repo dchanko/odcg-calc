@@ -9,7 +9,10 @@ import calculatorActions from '../actions/calculatorActions';
 jest.mock('../actions/calculatorActions');
 
 function setup(props) {
-  return shallow(<InclusionForm {...props}></InclusionForm>);
+  const data = {
+    data: props
+  };
+  return shallow(<InclusionForm {...data}></InclusionForm>);
 }
 
 describe('InclusionForm', () => {

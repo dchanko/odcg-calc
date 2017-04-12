@@ -5,9 +5,10 @@ import calculatorActions from '../actions/calculatorActions';
 export class DiamondForm extends React.Component {
   constructor(props, context) {
     super(props, context);
+    const data = props.data;
     this.state = {
-      length: this.props.length,
-      width: this.props.width
+      length: data.get('length'),
+      width: data.get('width')
     };
   }
   updateField(event) {
@@ -15,20 +16,16 @@ export class DiamondForm extends React.Component {
     calculatorActions.diamondUpdated({[event.target.name]: (parseFloat(event.target.value) || '')});
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.length != 0 && parseFloat(this.state.length) != nextProps.length) {
-      this.setState({ length: nextProps.length });
+    const data = nextProps.data;
+    if (data.get('length') != 0 && parseFloat(this.state.length) != data.get('length')) {
+      this.setState({ length: data.get('length') });
     }
-    if (nextProps.width != 0 && parseFloat(this.state.width) != nextProps.width) {
-      this.setState({ width: nextProps.width });
+    if (data.get('width') != 0 && parseFloat(this.state.width) != data.get('width')) {
+      this.setState({ width: data.get('width') });
     }
   }
   render() {
-    /*
-    const cmd = this.props.command;
-    let pendingItem = (cmd.type === "add" && cmd.text.length > 0)
-        ? ( <li key="-1">{cmd.text}</li> )
-        : null;
-        */
+    const data = this.props.data;
     return (
        <form className="pure-form pure-form-stacked">
         <fieldset className="inline">
@@ -44,7 +41,7 @@ export class DiamondForm extends React.Component {
             <option value="2">Squared</option>
           </select>
           <label className="pure-u-5-24">Total Grade (score)</label>
-          <label className="pure-u-3-24"><b><span id="totalGrade">{this.props.grade.gia}</span> (<span id="totalScore">{this.props.grade.score}</span>)</b></label>
+          <label className="pure-u-3-24"><b><span id="totalGrade">{data.get('grade').get('gia')}</span> (<span id="totalScore">{data.get('grade').get('score')}</span>)</b></label>
         </fieldset>
       </form>
     );
@@ -52,11 +49,13 @@ export class DiamondForm extends React.Component {
 }
 
 DiamondForm.propTypes = {
-  //items: PropTypes.array.isRequired
+  data: PropTypes.object.isRequired
 };
 
 export default connect(state => {
-  return state.get('diamond').toJS();
+  return {
+    data: state.get('diamond')
+  };
 })(DiamondForm);
 
 
