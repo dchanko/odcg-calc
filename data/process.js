@@ -59,7 +59,7 @@ var sub = rxNode.fromTransformStream(transformer).share()
                     diamond: false,
                     inclusions: []
                   }))
-                .map(js => fromJS(js))
+                .map(fromJS)
                 //.filter(entry => entry.diamond.name == "93")
                 .map(entry => {
                   var inclusionScores = entry.get('inclusions').map(i => {
